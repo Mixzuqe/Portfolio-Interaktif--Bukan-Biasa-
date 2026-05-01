@@ -1,0 +1,7 @@
+exclude:
+  - node_modules
+  - .sass-cache
+  - .jekyll-cache
+  - vendor
+  - Gemfile
+  - Gemfile.lock

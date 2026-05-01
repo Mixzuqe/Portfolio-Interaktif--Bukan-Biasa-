@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Rizal Maulana — Software Engineer & Data Application Developer. Building responsive web apps and powerful data solutions." />
+  <title>Rizal Maulana — Software Engineer & Data Developer</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CURSOR GLOW (Custom Cursor)
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════════════════════ -->
+  <nav class="nav" id="mainNav">
+    <div class="nav__brand">
+      <span class="nav__logo">RM</span>
+    </div>
+    <ul class="nav__links">
+      <li><a href="#story" class="nav__link">Story</a></li>
+      <li><a href="#about" class="nav__link">About</a></li>
+      <li><a href="#skills" class="nav__link">Skills</a></li>
+      <li><a href="#projects" class="nav__link">Projects</a></li>
+      <li><a href="#contact" class="nav__link nav__link--cta">Let's Talk</a></li>
+    </ul>
+    <button class="nav__burger" id="navBurger" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#story" class="mobile-link">Story</a></li>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#skills" class="mobile-link">Skills</a></li>
+      <li><a href="#projects" class="mobile-link">Projects</a></li>
+      <li><a href="#contact" class="mobile-link">Let's Talk</a></li>
+    </ul>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <!-- Animated Background Grid -->
+    <div class="hero__grid"></div>
+
+    <!-- Floating Orbs -->
+    <div class="hero__orb hero__orb--1"></div>
+    <div class="hero__orb hero__orb--2"></div>
+    <div class="hero__orb hero__orb--3"></div>
+
+    <!-- Particle Canvas -->
+    <canvas class="hero__particles" id="particleCanvas"></canvas>
+
+    <div class="hero__content">
+      <div class="hero__badge reveal-up">
+        <span class="hero__badge-dot"></span>
+        Available for opportunities
+      </div>
+
+      <h1 class="hero__name reveal-up" style="animation-delay: 0.1s;">
+        <span class="hero__name-word">{{ data.name.split()[0] }}</span>
+        <span class="hero__name-word hero__name-word--accent">{{ data.name.split()[1] }}</span>
+      </h1>
+
+      <div class="hero__title-wrap reveal-up" style="animation-delay: 0.2s;">
+        <p class="hero__title" id="typingTarget"></p>
+        <span class="typing-cursor">|</span>
+      </div>
+
+      <p class="hero__tagline reveal-up" style="animation-delay: 0.3s;">
+        "{{ data.tagline }}"
+      </p>
+
+      <div class="hero__cta reveal-up" style="animation-delay: 0.4s;">
+        <a href="#projects" class="btn btn--primary" id="heroCtaProjects">
+          <span>See My Work</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#contact" class="btn btn--ghost" id="heroCtaContact">Get In Touch</a>
+      </div>
+
+      <div class="hero__scroll-hint reveal-up" style="animation-delay: 0.6s;">
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
+        <span>Scroll to explore</span>
+      </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="hero__stats">
+      <div class="hero__stat">
+        <span class="hero__stat-number" data-count="3">0</span>
+        <span class="hero__stat-label">Projects Built</span>
+      </div>
+      <div class="hero__stat-divider"></div>
+      <div class="hero__stat">
+        <span class="hero__stat-number" data-count="4">0</span>
+        <span class="hero__stat-label">Years Journey</span>
+      </div>
+      <div class="hero__stat-divider"></div>
+      <div class="hero__stat">
+        <span class="hero__stat-number" data-count="100">0</span>
+        <span class="hero__stat-label">% Dedicated</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       STORY / TIMELINE SECTION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="story" id="story">
+    <div class="container">
+      <div class="section-label reveal-up">— My Journey</div>
+      <h2 class="section-title reveal-up">The Story So Far</h2>
+      <p class="section-subtitle reveal-up">
+        Setiap developer punya cerita. Ini adalah cerita saya —
+        perjalanan dari baris kode pertama menuju solusi nyata.
+      </p>
+
+      <div class="timeline">
+        {% for chapter in data.story_chapters %}
+        <div class="timeline__item reveal-timeline" data-index="{{ loop.index }}">
+          <div class="timeline__connector">
+            <div class="timeline__dot">{{ chapter.icon }}</div>
+            {% if not loop.last %}
+            <div class="timeline__line"></div>
+            {% endif %}
+          </div>
+          <div class="timeline__card">
+            <span class="timeline__year">{{ chapter.year }}</span>
+            <h3 class="timeline__title">{{ chapter.title }}</h3>
+            <p class="timeline__text">{{ chapter.text }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       ABOUT / IDENTITY SECTION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about__inner">
+        <div class="about__left">
+          <div class="section-label reveal-up">— Who I Am</div>
+          <h2 class="section-title reveal-up">More Than Just<br/><span class="text-gradient">A Developer</span></h2>
+
+          <p class="about__bio reveal-up">{{ data.bio }}</p>
+
+          <div class="about__values reveal-up">
+            <div class="about__value">
+              <div class="about__value-icon">💡</div>
+              <div>
+                <h4>Problem Solver</h4>
+                <p>Mengubah masalah kompleks menjadi solusi elegan</p>
+              </div>
+            </div>
+            <div class="about__value">
+              <div class="about__value-icon">🎯</div>
+              <div>
+                <h4>Detail Oriented</h4>
+                <p>Kualitas bukan pilihan, itu standar</p>
+              </div>
+            </div>
+            <div class="about__value">
+              <div class="about__value-icon">🚀</div>
+              <div>
+                <h4>Always Growing</h4>
+                <p>Selalu belajar, selalu berkembang</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about__right reveal-up">
+          <div class="about__card-wrap">
+            <div class="about__avatar-card">
+              <div class="about__avatar-ring">
+                <div class="about__avatar-inner">
+                  <span class="about__avatar-initials">RM</span>
+                </div>
+              </div>
+              <div class="about__card-info">
+                <h3>{{ data.name }}</h3>
+                <p>{{ data.title }}</p>
+                <div class="about__card-tags">
+                  <span class="tag">Python</span>
+                  <span class="tag">Flask</span>
+                  <span class="tag">Streamlit</span>
+                  <span class="tag">Data</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Floating decorative cards -->
+            <div class="about__deco about__deco--1">
+              <span>⚡</span> Open to Work
+            </div>
+            <div class="about__deco about__deco--2">
+              <span>🔥</span> 4 Years Exp.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SKILLS SECTION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="skills" id="skills">
+    <div class="container">
+      <div class="section-label reveal-up">— My Arsenal</div>
+      <h2 class="section-title reveal-up">Skills & Expertise</h2>
+      <p class="section-subtitle reveal-up">
+        Tools dan teknologi yang saya kuasai untuk membangun solusi yang powerful.
+      </p>
+
+      <div class="skills__grid">
+        {% for skill in data.skills %}
+        <div class="skill-card reveal-up" style="animation-delay: {{ loop.index0 * 0.07 }}s;"
+             data-level="{{ skill.level }}" id="skill-{{ loop.index }}">
+          <div class="skill-card__header">
+            <span class="skill-card__icon">{{ skill.icon }}</span>
+            <span class="skill-card__category">{{ skill.category }}</span>
+          </div>
+          <h3 class="skill-card__name">{{ skill.name }}</h3>
+          <div class="skill-card__bar-wrap">
+            <div class="skill-card__bar">
+              <div class="skill-card__fill" data-level="{{ skill.level }}"></div>
+            </div>
+            <span class="skill-card__percent">{{ skill.level }}%</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       PROJECTS SECTION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="projects" id="projects">
+    <div class="container">
+      <div class="section-label reveal-up">— What I've Built</div>
+      <h2 class="section-title reveal-up">Featured Projects</h2>
+      <p class="section-subtitle reveal-up">
+        Setiap proyek adalah cerita — dari ide mentah menjadi solusi yang hidup.
+      </p>
+
+      <div class="projects__grid">
+        {% for project in data.projects %}
+        <div class="project-card reveal-up" style="animation-delay: {{ loop.index0 * 0.15 }}s;"
+             id="project-{{ project.id }}">
+          <!-- Card Glow -->
+          <div class="project-card__glow" style="--glow-color: {{ project.color }};"></div>
+
+          <!-- Card Content -->
+          <div class="project-card__inner">
+            <div class="project-card__top">
+              <div class="project-card__icon-wrap" style="background: linear-gradient(135deg, {{ project.color }}33, {{ project.color }}11);">
+                <span class="project-card__icon">{{ project.icon }}</span>
+              </div>
+              <span class="project-card__category">{{ project.category }}</span>
+            </div>
+
+            <h3 class="project-card__title">{{ project.title }}</h3>
+            <p class="project-card__desc">{{ project.description }}</p>
+
+            <div class="project-card__tech">
+              {% for tech in project.tech %}
+              <span class="tech-tag">{{ tech }}</span>
+              {% endfor %}
+            </div>
+
+            <div class="project-card__footer">
+              <a href="{{ data.contact.github }}" target="_blank" class="project-card__link" aria-label="View project on GitHub">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                View on GitHub
+              </a>
+              <div class="project-card__arrow">→</div>
+            </div>
+          </div>
+
+          <!-- Hover Reveal Overlay -->
+          <div class="project-card__reveal">
+            <div class="project-card__reveal-content">
+              <span class="project-card__reveal-num">0{{ project.id }}</span>
+              <h3>{{ project.title }}</h3>
+              <p>Built with passion & precision</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       VALUE / ACHIEVEMENTS SECTION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="value" id="value">
+    <div class="container">
+      <div class="section-label reveal-up">— Why Choose Me</div>
+      <h2 class="section-title reveal-up">What I Bring<br/><span class="text-gradient">To The Table</span></h2>
+
+      <div class="value__grid">
+        <div class="value-card reveal-up" style="animation-delay: 0s;">
+          <div class="value-card__num">01</div>
+          <div class="value-card__icon">🧠</div>
+          <h3>Smart Problem Solving</h3>
+          <p>Pendekatan analitis yang terstruktur untuk setiap tantangan teknis — dari arsitektur hingga debugging.</p>
+        </div>
+        <div class="value-card reveal-up" style="animation-delay: 0.1s;">
+          <div class="value-card__num">02</div>
+          <div class="value-card__icon">⚡</div>
+          <h3>Fast & Efficient</h3>
+          <p>Delivery cepat tanpa mengorbankan kualitas. Kode bersih, terstruktur, dan mudah di-maintain.</p>
+        </div>
+        <div class="value-card reveal-up" style="animation-delay: 0.2s;">
+          <div class="value-card__num">03</div>
+          <div class="value-card__icon">🔄</div>
+          <h3>Adaptable & Scalable</h3>
+          <p>Solusi yang dibangun untuk berkembang — dari MVP kecil hingga sistem enterprise yang kompleks.</p>
+        </div>
+        <div class="value-card reveal-up" style="animation-delay: 0.3s;">
+          <div class="value-card__num">04</div>
+          <div class="value-card__icon">🤝</div>
+          <h3>Collaborative Spirit</h3>
+          <p>Komunikasi yang jelas, kolaborasi yang efektif — bekerja baik solo maupun dalam tim.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CONTACT / CTA SECTION
+  ═══════════════════════════════════════════════════════════════ -->
+  <section class="contact" id="contact">
+    <div class="contact__bg-orb contact__bg-orb--1"></div>
+    <div class="contact__bg-orb contact__bg-orb--2"></div>
+    <div class="container">
+      <div class="contact__inner">
+        <div class="section-label reveal-up" style="text-align:center;">— Let's Connect</div>
+        <h2 class="contact__heading reveal-up">
+          Ready to Build<br/>
+          <span class="text-gradient">Something Great?</span>
+        </h2>
+        <p class="contact__sub reveal-up">
+          Saya selalu terbuka untuk diskusi, kolaborasi, atau sekadar ngobrol soal teknologi.
+          Let's make something amazing together.
+        </p>
+
+        <div class="contact__actions reveal-up">
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ data.contact.email }}" target="_blank" class="btn btn--primary btn--large" id="contactEmail">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Send Me an Email
+          </a>
+          <a href="{{ data.contact.linkedin }}" target="_blank" class="btn btn--outline btn--large" id="contactLinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+            LinkedIn
+          </a>
+          <a href="{{ data.contact.github }}" target="_blank" class="btn btn--outline btn--large" id="contactGitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+        </div>
+
+        <div class="contact__email-display reveal-up">
+          <span>📩</span>
+          <code>{{ data.contact.email }}</code>
+          <button class="copy-btn" id="copyEmailBtn" onclick="copyEmail('{{ data.contact.email }}')">Copy</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <span class="footer__logo">RM</span>
+          <span>{{ data.name }}</span>
+        </div>
+        <p class="footer__copy">
+          Crafted with ❤️ and Python · {{ data.name }} © 2024
+        </p>
+        <div class="footer__socials">
+          <a href="{{ data.contact.github }}" target="_blank" aria-label="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+          <a href="{{ data.contact.linkedin }}" target="_blank" aria-label="LinkedIn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Copied to clipboard! ✓</div>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
